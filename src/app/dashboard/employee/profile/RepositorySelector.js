@@ -102,12 +102,12 @@ export default function RepositorySelector() {
         ) : (
           <GithubConnectButton />
         )}
-        <button
+        {/* <button
           onClick={() => setManualMode(!manualMode)}
           className="text-sm text-blue-600 underline whitespace-nowrap"
         >
           {manualMode ? "Cancel manual entry" : "Enter repo manually"}
-        </button>
+        </button> */}
       </div>
 
       {manualMode && (

@@ -12,8 +12,6 @@ export async function GET(request) {
 
   if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  console.log(user);
-
   return NextResponse.json({
     _id: user._id,
     dpURL: user.dpURL,
@@ -22,5 +20,6 @@ export async function GET(request) {
     username: user.username,
     github: user.github,
     repositories: user.repositories,
+    skills: user.skills,
   });
 }

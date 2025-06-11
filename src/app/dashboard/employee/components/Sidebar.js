@@ -2,14 +2,33 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User, Code, Folder, Settings } from "lucide-react";
+import { User, Code, Folder, Settings } from "lucide-react";
 
 const navItems = [
-  { name: "Home", href: "/dashboard", icon: Home },
-  { name: "Profile", href: "/dashboard/employee/profile", icon: User },
-  { name: "Skills", href: "/dashboard/employee/skills", icon: Code },
-  { name: "Projects", href: "/dashboard/employee/repository", icon: Folder },
-  { name: "Settings", href: "/dashboard/employee/settings", icon: Settings },
+  {
+    name: "Profile",
+    href: "/dashboard/employee/profile",
+    icon: User,
+    enabled: true,
+  },
+  {
+    name: "Skills",
+    href: "/dashboard/employee/skills",
+    icon: Code,
+    enabled: true,
+  },
+  {
+    name: "Projects",
+    href: "/dashboard/employee/repository",
+    icon: Folder,
+    enabled: false,
+  },
+  {
+    name: "Settings",
+    href: "/dashboard/employee/settings",
+    icon: Settings,
+    enabled: false,
+  },
 ];
 
 export default function Sidebar() {
@@ -17,10 +36,10 @@ export default function Sidebar() {
 
   return (
     <aside className="h-full w-full px-4 py-6 overflow-y-auto">
-      <h1 className="text-xl font-bold text-black mb-8 pl-2">Talent Hub</h1>
+      <h1 className="text-l font-bold text-black mb-8 pl-2">My Menu</h1>
 
       <nav className="space-y-2">
-        {navItems.map(({ name, href, icon: Icon }) => {
+        {navItems.filter(item => item.enabled).map(({ name, href, icon: Icon }) => {
           const isActive = pathname === href;
           return (
             <Link key={href} href={href} className="block">

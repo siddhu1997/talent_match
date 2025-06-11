@@ -12,6 +12,12 @@ const UserSchema = new mongoose.Schema({
   dpURL: { type: String },
   name: { type: String },
   doj: { type: Date },
+  skills: [
+    {
+      name: String,
+      rating: { type: Number, min: 1, max: 5 },
+    },
+  ],
   repositories: [
     {
       name: String,
