@@ -19,5 +19,5 @@ export async function loginAction(_prevState, formData) {
   if (!isMatch) return { error: "Invalid credentials!" };
 
   setSessionCookie(user._id.toString());
-  redirect("/dashboard");
+  redirect(user.role === "employee" ? "/dashboard/employee/profile" : "/dashboard/admin/profile");
 }

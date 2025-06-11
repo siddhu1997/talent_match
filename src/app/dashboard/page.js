@@ -7,7 +7,7 @@ import EmployeeDashboard from "./employee/view";
 import AdminDashboard from "./admin/view";
 
 export default async function DashboardPage() {
-  const session = cookies().get("session")?.value;
+  const session = (await cookies()).get("session")?.value;
   if (!session) redirect("/login");
 
   await dbConnect();

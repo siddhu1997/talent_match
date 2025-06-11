@@ -9,6 +9,22 @@ const UserSchema = new mongoose.Schema({
     enum: ["employee", "admin"],
     default: "employee",
   },
+  dpURL: { type: String },
+  name: { type: String },
+  doj: { type: Date },
+  repositories: [
+    {
+      name: String,
+      url: String,
+    },
+  ],
+  github: {
+    accessToken: String,
+    refreshToken: String,
+    username: String,
+    connected: { type: Boolean, default: false },
+  },
+
   createdAt: { type: Date, default: Date.now },
 });
 

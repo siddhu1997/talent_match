@@ -2,31 +2,41 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home, User, Code, Folder, Settings } from "lucide-react";
 
 const navItems = [
-  { name: "Repository", href: "/dashboard/employee/repository" },
-  { name: "Skills", href: "/dashboard/employee/skills" },
-  { name: "Chatbot", href: "/dashboard/employee/chatbot" },
-  { name: "Top 10 Matches", href: "/dashboard/employee/top10" },
+  { name: "Home", href: "/dashboard", icon: Home },
+  { name: "Profile", href: "/dashboard/employee/profile", icon: User },
+  { name: "Skills", href: "/dashboard/employee/skills", icon: Code },
+  { name: "Projects", href: "/dashboard/employee/repository", icon: Folder },
+  { name: "Settings", href: "/dashboard/employee/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-60 bg-white border-r h-full p-4">
-      <nav className="space-y-3">
-        {navItems.map((item) => (
-          <Link key={item.href} href={item.href}>
-            <p
-              className={`block font-medium ${
-                pathname === item.href ? "text-blue-600" : "text-black"
-              } hover:underline`}
-            >
-              {item.name}
-            </p>
-          </Link>
-        ))}
+    <aside className="h-full w-full px-4 py-6 overflow-y-auto">
+      <h1 className="text-xl font-bold text-black mb-8 pl-2">Talent Hub</h1>
+
+      <nav className="space-y-2">
+        {navItems.map(({ name, href, icon: Icon }) => {
+          const isActive = pathname === href;
+          return (
+            <Link key={href} href={href} className="block">
+              <div
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg ${
+                  isActive
+                    ? "bg-blue-100 text-blue-600 font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                } transition`}
+              >
+                <Icon className="w-4 h-4" />
+                <span className="text-sm">{name}</span>
+              </div>
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );
