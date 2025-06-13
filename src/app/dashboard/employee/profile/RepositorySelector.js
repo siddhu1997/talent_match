@@ -10,7 +10,8 @@ import { Select, MenuItem, FormControl, InputLabel, Box } from "@mui/material";
 export default function RepositorySelector() {
   const { user, fetchUser, loading } = useUser();
   const [repos, setRepos] = useState([]);
-  const [selectedRepo, setSelectedRepo] = useState("");
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [manualMode, setManualMode] = useState(false);
   const [manualRepo, setManualRepo] = useState("");
 
@@ -29,25 +30,30 @@ export default function RepositorySelector() {
     }
   }, [user, loading]);
 
-  const handleRepoSelect = async (e) => {
-    const url = e.target.value;
-    const selected = repos.find((r) => r.url === url);
-    setSelectedRepo(url);
+  const handleAddSelected = async () => {
+    const selectedReposData = repos.filter((r) =>
+      selectedItems.includes(r.url)
+    );
 
-    if (!selected) return;
+    try {
+      const res = await fetch("/api/github/saveRepos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repositories: selectedReposData }),
+      });
 
-    const res = await fetch("/api/github/saveRepo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(selected),
-    });
-
-    if (res.ok) {
-      toast.success("Repository saved");
-      await fetchUser(); // Refresh user context
-      setSelectedRepo("");
-    } else {
-      toast.error("Failed to save repository");
+      if (res.ok) {
+        toast.success("Repositories saved");
+        await fetchUser();
+      } else {
+        toast.error("Failed to save repositories");
+      }
+    } catch (error) {
+      console.error("Error saving repositories:", error.message);
+      toast.error("An error occurred while saving repositories");
+    } finally {
+      setSelectedItems([]);
+      setOpenDropdown(false);
     }
   };
 
@@ -80,24 +86,58 @@ export default function RepositorySelector() {
         Select repositories to analyze your skills.
       </p>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
         {user?.github?.connected ? (
-          <FormControl size="small" sx={{ width: 280 }}>
-            <InputLabel id="repo-label">Select Repository</InputLabel>
-            <Select
-              labelId="repo-label"
-              id="repo-select"
-              value={selectedRepo}
-              label="Select Repository"
-              onChange={handleRepoSelect}
-              sx={{ borderRadius: 2 }}
-            >
-              {repos.map((repo, index) => (
-                <MenuItem key={index} value={repo.url}>
-                  {repo.name}
-                </MenuItem>
-              ))}
-            </Select>
+          <FormControl fullWidth size="medium" sx={{ width: 300 }}>
+            <div className="relative mt-1">
+              {/* Dropdown trigger */}
+              <button
+                onClick={() => setOpenDropdown(!openDropdown)}
+                className="w-full border rounded-lg px-4 py-2 text-left text-sm text-black"
+              >
+                {selectedItems.length > 0
+                  ? `${selectedItems.length} repo(s) selected`
+                  : "Select Repositories"}
+              </button>
+
+              {/* Dropdown content */}
+              {openDropdown && (
+                <div className="absolute left-0 right-0 mt-2 bg-white border rounded-lg shadow z-10">
+                  {/* Scrollable checkbox list */}
+                  <div className="max-h-52 overflow-y-auto px-4 py-3">
+                    {repos.map((repo, index) => (
+                      <label
+                        key={index}
+                        className="flex items-center gap-2 text-sm text-black py-1"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedItems.includes(repo.url)}
+                          onChange={() =>
+                            setSelectedItems((prev) =>
+                              prev.includes(repo.url)
+                                ? prev.filter((url) => url !== repo.url)
+                                : [...prev, repo.url]
+                            )
+                          }
+                        />
+                        {repo.name}
+                      </label>
+                    ))}
+                  </div>
+
+                  {/* Always-visible footer */}
+                  <div className="border-t px-4 py-2 bg-gray-50 rounded-b-lg flex justify-end">
+                    <button
+                      onClick={handleAddSelected}
+                      className="bg-blue-600 text-white text-sm px-4 py-2 rounded"
+                    >
+                      Add Selected
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </FormControl>
         ) : (
           <GithubConnectButton />

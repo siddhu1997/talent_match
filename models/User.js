@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
       rating: { type: Number, min: 1, max: 5 },
     },
   ],
+  resume: {
+    url: String,
+    filename: String,
+  },
   repositories: [
     {
       name: String,

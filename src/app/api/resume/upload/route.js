@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import dbConnect from "@lib/db";
 import User from "@models/User";
+import { triggerWebhook } from "@lib/webhook";
 
 export async function POST(req) {
   const formData = await req.formData();
@@ -32,6 +33,20 @@ export async function POST(req) {
   const filePath = path.join(uploadsDir, file.name);
 
   await writeFile(filePath, buffer);
+  await User.findByIdAndUpdate(
+      user._id,
+      {
+        resume: {
+          url: `/uploads/resumes/${user._id}/${file.name}`,
+          filename: file.name,
+        },
+      },
+    );
+  await triggerWebhook("resume_uploaded", {
+    userId: session,
+    url: `/resumes/${uploadedFile.filename}`, // or your actual file URL
+  });
+
 
   return NextResponse.json({ success: true, filename: file.name });
 }

@@ -2,7 +2,6 @@
 
 import dbConnect from "@lib/db";
 import User from "@models/User";
-import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 
 export async function signupAction(_prevState, formData) {
@@ -15,9 +14,7 @@ export async function signupAction(_prevState, formData) {
   if (existing) return { error: "User already exists" };
 
   const role = "employee";
-
-  const hashed = await bcrypt.hash(password, 10);
-  const user = new User({ username, password: hashed, role });
+  const user = new User({ username, password, role });
 
   await user.save();
 
