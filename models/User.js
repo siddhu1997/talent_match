@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema({
     default: "employee",
   },
   dpURL: { type: String },
-  name: { type: String },
   doj: { type: Date },
   skills: [
     {
@@ -34,7 +33,26 @@ const UserSchema = new mongoose.Schema({
     username: String,
     connected: { type: Boolean, default: false },
   },
-
+  empID: { type: String, required: true },
+  fullName: { type: String, required: true },
+  mailID: { type: String, required: true },
+  company: { type: String, default: "Infosys" },
+  jobLevel: { type: String, required: true },
+  role_category: {
+    type: String,
+    enum: [
+      "Developer",
+      "Support",
+      "Admin",
+      "Architect",
+      "Tester",
+      "Domain Consultant",
+      "Business Analyst",
+      "Data Analyst",
+      "Manager",
+    ],
+    required: true,
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

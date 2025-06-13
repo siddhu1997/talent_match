@@ -33,10 +33,10 @@ export default function TalentPool() {
           >
             <img
               src={user.avatar}
-              alt={user.name}
+              alt={user.fullName}
               className="w-16 h-16 rounded-full mb-2"
             />
-            <h3 className="text-black font-semibold">{user.name}</h3>
+            <h3 className="text-black font-semibold">{user.fullName}</h3>
             <p className="text-sm text-gray-600">{user.position}</p>
             <p className="text-sm text-gray-500">
               {user.experience} yrs experience

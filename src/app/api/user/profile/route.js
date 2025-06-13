@@ -15,7 +15,7 @@ export async function GET(request) {
   return NextResponse.json({
     _id: user._id,
     dpURL: user.dpURL,
-    name: user.name,
+    name: user.fullName,
     doj: user.doj,
     username: user.username,
     github: user.github,

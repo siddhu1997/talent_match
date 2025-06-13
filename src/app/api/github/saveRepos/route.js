@@ -22,7 +22,7 @@ export async function POST(request) {
   }
 
   // Add each repo uniquely
-  const updated = await User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     session,
     {
       $addToSet: {
@@ -35,11 +35,16 @@ export async function POST(request) {
   await triggerWebhook("repo_added", {
     userId: session,
     repositories: repositories.map((r) => ({ name: r.name, url: r.url })),
-    resume: updated.resume,
+    resume: updatedUser.resume,
+    empID: updatedUser.empID,
+    mailID: updatedUser.mailID,
+    fullName: updatedUser.fullName,
+    jobLevel: updatedUser.jobLevel,
+    role_category: updatedUser.role_category
   });
 
   return NextResponse.json({
     success: true,
-    repositories: updated.repositories,
+    repositories: updatedUser.repositories,
   });
 }

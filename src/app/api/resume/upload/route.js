@@ -43,7 +43,12 @@ export async function POST(req) {
   await triggerWebhook("resume_uploaded", {
     userId: session,
     fileLocation,
-    repositories: user.repositories
+    repositories: user.repositories,
+    empID: user.empID,
+    mailID: user.mailID,
+    fullName: user.fullName,
+    jobLevel: user.jobLevel,
+    role_category: user.role_category
   });
 
 
