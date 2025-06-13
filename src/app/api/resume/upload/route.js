@@ -33,18 +33,16 @@ export async function POST(req) {
   const filePath = path.join(uploadsDir, file.name);
 
   await writeFile(filePath, buffer);
-  await User.findByIdAndUpdate(
-      user._id,
-      {
-        resume: {
-          url: `/uploads/resumes/${user._id}/${file.name}`,
-          filename: file.name,
-        },
-      },
-    );
+  const fileLocation = `/uploads/resumes/${user._id}/${file.name}`;
+  await User.findByIdAndUpdate(user._id, {
+    resume: {
+      url: fileLocation,
+      filename: file.name,
+    },
+  });
   await triggerWebhook("resume_uploaded", {
     userId: session,
-    url: `/resumes/${uploadedFile.filename}`, // or your actual file URL
+    fileLocation,
   });
 
 
