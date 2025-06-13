@@ -35,6 +35,7 @@ export async function POST(request) {
   await triggerWebhook("repo_added", {
     userId: session,
     repositories: repositories.map((r) => ({ name: r.name, url: r.url })),
+    resume: updated.resume,
   });
 
   return NextResponse.json({
