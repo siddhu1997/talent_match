@@ -48,7 +48,8 @@ export async function POST(req) {
     mailID: user.mailID,
     fullName: user.fullName,
     jobLevel: user.jobLevel,
-    role_category: user.role_category
+    role_category: user.role_category,
+    github_username: user.github?.username,
   });
 
 

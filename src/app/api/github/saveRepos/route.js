@@ -40,7 +40,8 @@ export async function POST(request) {
     mailID: updatedUser.mailID,
     fullName: updatedUser.fullName,
     jobLevel: updatedUser.jobLevel,
-    role_category: updatedUser.role_category
+    role_category: updatedUser.role_category,
+    github_username: updatedUser.github?.username,
   });
 
   return NextResponse.json({
