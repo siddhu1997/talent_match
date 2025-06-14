@@ -102,7 +102,7 @@ export default function AdminHome() {
           </h2>
 
           {/* Chat messages (scrollable area) */}
-          <div className="flex-1 overflow-y-auto px-6 pb-4">
+          <div className="flex-1 overflow-y-auto px-6 pb-4 space-y-4">
             {messages
               .filter((msg) => msg.text)
               .map((msg, i) => {
