@@ -241,6 +241,21 @@ export default function AdminHome() {
               })}
           </div>
 
+          {isTyping && (
+            <div className="flex items-start">
+              <div className="mr-2 mt-1">
+                <img
+                  src="/bot-avatar.png"
+                  alt="Bot"
+                  className="w-8 h-8 rounded-full"
+                />
+              </div>
+              <div className="bg-gray-200 text-black text-sm px-4 py-2 rounded-lg">
+                <span className="animate-pulse">Bot is typing...</span>
+              </div>
+            </div>
+          )}
+
           {/* Input area – always at bottom */}
           <div className="sticky bottom-0 bg-slate-50 border-t px-6 py-4 flex gap-3 z-10">
             <input
