@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import ChatProfileCard from "./ChatProfileCard"; // Custom modal-integrated card
+import ChatProfileCard from "./ChatProfileCard";
 import { toast } from "sonner";
 
 export default function EmployeeCardGrid({ empIDs }) {

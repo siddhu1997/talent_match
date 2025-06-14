@@ -2,9 +2,13 @@
 import { useState } from "react";
 import { Mail, BadgeInfo, Briefcase, X } from "lucide-react";
 
+function truncate(str, maxLength = 20) {
+  return str.length > maxLength ? str.slice(0, maxLength) + "…" : str;
+}
+
 export default function ChatProfileCard({ employee, content }) {
   const [showModal, setShowModal] = useState(false);
-  const { name, mailID, empID, jobLevel, dpURL } = employee;
+  const { fullName, mailID, empID, jobLevel, dpURL } = employee;
 
   return (
     <>
@@ -14,11 +18,11 @@ export default function ChatProfileCard({ employee, content }) {
       >
         <img
           src={dpURL || "/user-avatar.png"}
-          alt={name}
+          alt={fullName}
           className="w-20 h-20 rounded-full object-cover mb-2"
         />
-        <h3 className="font-bold text-base text-black">{name}</h3>
-        <p className="text-gray-500 text-sm truncate">{mailID}</p>
+        <h3 className="font-bold text-base text-black">{truncate(fullName)}</h3>
+        <p className="text-gray-500 text-sm truncate">{truncate(mailID)}</p>
       </div>
 
       {showModal && (
@@ -34,10 +38,10 @@ export default function ChatProfileCard({ employee, content }) {
             <div className="flex flex-col items-center">
               <img
                 src={dpURL || "/user-avatar.png"}
-                alt={name}
+                alt={fullName}
                 className="w-24 h-24 rounded-full object-cover mb-4"
               />
-              <h2 className="text-xl font-bold mb-2 text-black">{name}</h2>
+              <h2 className="text-xl font-bold mb-2 text-black">{fullName}</h2>
 
               <div className="space-y-2 text-sm text-gray-700 w-full text-left mb-4">
                 <p className="flex items-center gap-2">
