@@ -4,7 +4,7 @@ import { Mail, BadgeInfo, Briefcase, X } from "lucide-react";
 
 export default function ChatProfileCard({ employee, content }) {
   const [showModal, setShowModal] = useState(false);
-  const { name, mailID, empID, role_category, dpURL } = employee;
+  const { name, mailID, empID, jobLevel, dpURL } = employee;
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function ChatProfileCard({ employee, content }) {
                   <BadgeInfo size={16} /> {empID}
                 </p>
                 <p className="flex items-center gap-2">
-                  <Briefcase size={16} /> {role_category}
+                  <Briefcase size={16} /> Job Level - {jobLevel}
                 </p>
               </div>
 
